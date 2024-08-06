@@ -46,7 +46,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setNotificationDisplay(`wrong username or password`, 'error')
+      setNotificationDisplay('wrong username or password', 'error')
     }
   }
 

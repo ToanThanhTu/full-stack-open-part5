@@ -1,4 +1,5 @@
 import '../index.css'
+import PropTypes from 'prop-types'
 
 const Notification = ({ message, type }) => {
     if (message === null) {
@@ -10,6 +11,11 @@ const Notification = ({ message, type }) => {
             {message}
         </div>
     )
+}
+
+Notification.propTypes = {
+    message: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired
 }
 
 export default Notification
