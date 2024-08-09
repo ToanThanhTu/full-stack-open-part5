@@ -5,6 +5,7 @@ import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
+import LoginForm from './components/LoginForm'
 
 // import services
 import blogService from './services/blogs'
@@ -36,12 +37,15 @@ const App = () => {
     }
   }, [])
 
-  const handleLogin = async (event) => {
+  // Login handler
+  const login = async (event) => {
     event.preventDefault()
 
     try {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user)) // set user data in local storage
+
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
@@ -50,7 +54,8 @@ const App = () => {
     }
   }
 
-  const handleLogout = async (event) => {
+  // Logout handler
+  const logout = async (event) => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
     setUsername('')
@@ -71,6 +76,7 @@ const App = () => {
     }
   }
 
+  // Blog update handler
   const updateBlog = async (blogObject) => {
     try {
       await blogService.update(blogObject)
@@ -84,6 +90,7 @@ const App = () => {
     }
   }
 
+  // Blog deletion handler
   const deleteBlog = async (blogObject) => {
     try {
       await blogService.deleteBlog(blogObject.id)
@@ -96,6 +103,7 @@ const App = () => {
     }
   }
 
+  // Setting Notification text and type for CSS
   const setNotificationDisplay = (message, type) => {
     setNotificationType(type)
     setNotification(message)
@@ -105,50 +113,39 @@ const App = () => {
     }, 5000)
   }
 
+  // Helper function for Login Form
   const loginForm = () => (
-    <>
-      <h1>log in to application</h1>
+    <LoginForm
+      username={username}
+      password={password}
+      handleLogin={login}
+      handleUsernameChange={({ target }) => setUsername(target.value)}
+      handlePasswordChange={({ target }) => setPassword(target.value)}
+    >
       <Notification message={notification} type={notificationType} />
-      <form onSubmit={handleLogin}>
-        <div>
-          username
-          <input
-            type="text"
-            value={username}
-            name='Username'
-            onChange={({ target }) => setUsername(target.value)} />
-        </div>
-        <div >
-          password
-          <input
-            type="password"
-            value={password}
-            name='Password'
-            onChange={({ target }) => setPassword(target.value)} />
-        </div>
-        <button type='submit'>login</button>
-      </form>
-    </>
+    </LoginForm>
   )
 
+  // Helper function for Create New Blog Form
   const newBlogForm = () => (
     <Togglable buttonLabel='create new blog' ref={blogFormRef}>
       <BlogForm createBlog={createBlog} />
     </Togglable>
   )
 
+  // Helper function for displaying blogs
   const blogsSection = () => (
     <>
       <h2>blogs</h2>
 
       <Notification message={notification} type={notificationType} />
-      <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
+      <p>{user.name} logged in <button onClick={logout}>logout</button></p>
 
       {newBlogForm()}
 
       {
         blogs
-          .sort((a, b) => b.likes - a.likes)
+          .sort((a, b) => b.likes - a.likes) // Sort blogs based on Likes
           .map(blog =>
             <Blog
               key={blog.id}
