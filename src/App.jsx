@@ -21,9 +21,11 @@ const App = () => {
 
   // get all blogs
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(blogs)
-    )
+    blogService
+      .getAll()
+      .then(blogs =>
+        setBlogs(blogs)
+      )
   }, [])
 
   // Auto login user if present in local storage
@@ -67,6 +69,7 @@ const App = () => {
 
   const createBlog = async (newBlog) => {
     blogFormRef.current.toggleVisibility() // hide blog form after creation
+
     try {
       const savedBlog = await blogService.create(newBlog)
       setBlogs(blogs.concat(savedBlog))
@@ -103,14 +106,14 @@ const App = () => {
     }
   }
 
-  // Setting Notification text and type for CSS
+  // Setting Notification text and type for CSS, disappears after 3 seconds
   const setNotificationDisplay = (message, type) => {
     setNotificationType(type)
     setNotification(message)
     setTimeout(() => {
       setNotification('')
       setNotificationType('')
-    }, 5000)
+    }, 3000)
   }
 
   // Helper function for Login Form

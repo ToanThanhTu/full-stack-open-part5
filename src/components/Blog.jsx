@@ -36,7 +36,7 @@ const Blog = ({ blog, deleteBlog, updateBlog, user }) => {
   }
 
   return (
-    <div style={blogStyle} className='blog' >
+    <div style={blogStyle} className='blog' data-testid={blog.title}>
       {blog.title} - {blog.author}
       <button
         onClick={toggleVisibility}
@@ -54,11 +54,10 @@ const Blog = ({ blog, deleteBlog, updateBlog, user }) => {
       <div style={showWhenVisible} className='blog-info'>
         <div>{blog.url}</div>
         <div>
-          likes {blog.likes}
+          likes <span className='likes'>{blog.likes}</span>
           <button onClick={addLike} className='like-button'>like</button>
         </div>
         <div>{blog.user ? blog.user.name : ''}</div>
-
         { /* show 'remove' button only when username matches  */
           blog.user
             ? blog.user.username === user.username
