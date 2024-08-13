@@ -29,9 +29,9 @@ const BlogForm = ({ createBlog }) => {
                     <input
                         id='title'
                         data-testid='title'
-                        type="text"
+                        type='text'
                         value={title}
-                        name="Title"
+                        name='Title'
                         onChange={({ target }) => setTitle(target.value)}
                         className='title-input'
                     />
@@ -41,9 +41,9 @@ const BlogForm = ({ createBlog }) => {
                     <input
                         id='author'
                         data-testid='author'
-                        type="text"
+                        type='text'
                         value={author}
-                        name="Author"
+                        name='Author'
                         onChange={({ target }) => setAuthor(target.value)}
                         className='author-input'
                     />
@@ -53,14 +53,14 @@ const BlogForm = ({ createBlog }) => {
                     <input
                         id='url'
                         data-testid='url'
-                        type="url"
+                        type='url'
                         value={url}
-                        name="Url"
+                        name='Url'
                         onChange={({ target }) => setUrl(target.value)}
                         className='url-input'
                     />
                 </div>
-                <button type="submit" className='create-button'>create</button>
+                <button type='submit' className='create-button'>create</button>
             </form>
         </div>
     )
